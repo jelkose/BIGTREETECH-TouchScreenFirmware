@@ -98,6 +98,7 @@
 #include "ParameterSettings.h"
 #include "NotificationMenu.h"
 #include "PersistentInfo.h"
+#include "Spindle.h"
 
 #include "Babystep.h"
 #include "Extrude.h"

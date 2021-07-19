@@ -215,7 +215,11 @@ void switchMode(void)
   {
     case MODE_SERIAL_TSC:
       GUI_RestoreColorDefault();
-      if (infoSettings.status_screen == 1)  //if Unified menu is selected
+      if(infoSettings.cnc_mode == 1)
+      {
+        infoMenu.menu[infoMenu.cur] = cncMenu;
+      }
+      else if (infoSettings.status_screen == 1)  //if Unified menu is selected
         infoMenu.menu[infoMenu.cur] = menuStatus;  //status screen as default screen on boot
       else
         infoMenu.menu[infoMenu.cur] = menuMain;  // classic UI

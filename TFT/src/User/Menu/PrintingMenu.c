@@ -434,8 +434,6 @@ void printInfoPopup(void)
       sprintf(tempstr, (char *)textSelect(LABEL_FILAMENT_COST), infoPrintSummary.cost);
       strcat(showInfo, tempstr);
     }
-    rapid_serial_loop();   //perform backend printing loop before drawing to avoid printer idling
-    reDrawSpeed(SPD_ICON_POS);
   }
   popupReminder(DIALOG_TYPE_INFO, (uint8_t *)infoPrintSummary.name, (uint8_t *)showInfo);
 }

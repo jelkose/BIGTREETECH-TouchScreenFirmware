@@ -361,6 +361,19 @@ extern "C" {
 #define LANG_KEY_CONNECT_PROBE                   "label_connect_probe:"
 #define LANG_KEY_CALIBRATION                   "label_calibration:"
 
+#define LANG_KEY_ZERO_X                 "label_zero_x:"
+#define LANG_KEY_ZERO_Y                 "label_zero_y:"
+#define LANG_KEY_ZERO_Z                 "label_zero_x:"
+#define LANG_KEY_XY                     "label_xy:"
+#define LANG_KEY_SPINDLE                "label_spindle:"
+#define LANG_KEY_CUT                    "label_cut:"
+#define LANG_KEY_LASER                  "label_laser:"
+#define LANG_KEY_LASER_2                "label_laser_2:"
+#define LANG_KEY_LASER_100              "label_laser_100:"
+#define LANG_KEY_LASER_OFF              "label_laser_off:"
+#define LANG_KEY_CNC_MODE               "label_cnc_mode:"
+#define LANG_KEY_LASER_MODE             "label_laser_mode:"
+
 #ifdef __cplusplus
 }
 #endif

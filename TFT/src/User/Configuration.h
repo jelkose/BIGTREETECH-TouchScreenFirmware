@@ -529,6 +529,8 @@
  */
 #define TERMINAL_KEYBOARD_LAYOUT 0  // Default: 0
 
+#define UNIFIED_MENU true
+
 // Enable CNC mode mutually exclusive to UNIFIED_MENU
 #define CNC_MODE true
 

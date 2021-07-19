@@ -542,11 +542,6 @@ void parseConfigKey(uint16_t index)
       infoSettings.laser_mode = getOnOff();
     break;
 
-  case C_INDEX_UART_BAUDRATE:
-    if (inLimit(config_int(),0,ITEM_BAUDRATE_NUM-1))
-      infoSettings.baudrate = item_baudrate[config_int()];
-    break;
-
     case C_INDEX_UART_BAUDRATE:
       SET_VALID_INT_VALUE(infoSettings.baudrate, 0, BAUDRATE_COUNT - 1);
       break;
