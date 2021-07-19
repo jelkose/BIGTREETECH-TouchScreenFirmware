@@ -354,4 +354,16 @@
     #define STRING_CONNECT_PROBE          "Connect probe before starting the process. Make sure to disconnect it afterwards."
     #define STRING_CALIBRATION            "Calibration"
 
+    #define SL_ZERO_X                 "Zero X"
+    #define SL_ZERO_Y                 "Zero Y"
+    #define SL_ZERO_Z                 "Zero Z"
+    #define SL_XY                     "XY"
+    #define SL_SPINDLE                "Spindle"
+    #define SL_CUT                    "Cut"
+    #define SL_LASER                  "Laser"
+    #define SL_LASER_2                "Laser 2%"
+    #define SL_LASER_100              "Laser 100%"
+    #define SL_LASER_OFF              "Laser Off"
+    #define SL_CNC_MODE               "CNC Mode"
+    #define SL_LASER_MODE             "Laser Mode"
 #endif

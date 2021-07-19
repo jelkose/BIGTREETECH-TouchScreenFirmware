@@ -434,6 +434,19 @@ void printInfoPopup(void)
       sprintf(tempstr, (char *)textSelect(LABEL_FILAMENT_COST), infoPrintSummary.cost);
       strcat(showInfo, tempstr);
     }
+
+    if (infoSettings.cnc_mode != 1)
+    {
+      c_speedID = (c_speedID + 1) % 2;
+    }
+    else
+    {
+      c_speedID = 0;
+    }
+
+    nextTime = OS_GetTimeMs() + toggle_time;
+    rapid_serial_loop();   //perform backend printing loop before drawing to avoid printer idling
+    reDrawSpeed(SPD_ICON_POS);
   }
   popupReminder(DIALOG_TYPE_INFO, (uint8_t *)infoPrintSummary.name, (uint8_t *)showInfo);
 }
@@ -508,6 +521,29 @@ void menuPrinting(void)
   }
 
   menuDrawPage(&printingItems);
+  if (infoSettings.cnc_mode != 1)
+  {
+    reValueNozzle(EXT_ICON_POS);
+    reValueBed(BED_ICON_POS);
+  }
+  reDrawFan(FAN_ICON_POS);
+  reDrawTime(TIM_ICON_POS);
+  reDrawProgress(TIM_ICON_POS);
+  reDrawLayer(Z_ICON_POS);
+  reDrawSpeed(SPD_ICON_POS);
+}
+
+
+void menuPrinting(void)
+{
+  KEY_VALUES  key_num = KEY_IDLE;
+  u32         time = 0;
+  HEATER      nowHeat;
+  float       curLayer = 0;
+  u8          nowFan[MAX_FAN_COUNT] = {0};
+  uint16_t    curspeed[2] = {0};
+  memset(&nowHeat, 0, sizeof(HEATER));
+
   printingDrawPage();
   if (lastPrinting == false)
     drawPrintInfo();
@@ -516,14 +552,16 @@ void menuPrinting(void)
   {
     //Scroll_DispString(&titleScroll, LEFT);  // Scroll display file name will take too many CPU cycles
 
-    // check nozzle temp change
-    if (nowHeat.T[currentTool].current != heatGetCurrentTemp(currentTool) ||
-        nowHeat.T[currentTool].target != heatGetTargetTemp(currentTool))
+    if (infoSettings.cnc_mode != 1)
     {
-      nowHeat.T[currentTool].current = heatGetCurrentTemp(currentTool);
-      nowHeat.T[currentTool].target = heatGetTargetTemp(currentTool);
-      RAPID_SERIAL_LOOP();  // perform backend printing loop before drawing to avoid printer idling
-      reDrawPrintingValue(EXT_ICON_POS, PRINT_BOTTOM_ROW);
+      //check nozzle temp change
+      if (nowHeat.T[c_Tool].current != heatGetCurrentTemp(c_Tool) || nowHeat.T[c_Tool].target != heatGetTargetTemp(c_Tool))
+      {
+        nowHeat.T[c_Tool].current = heatGetCurrentTemp(c_Tool);
+        nowHeat.T[c_Tool].target = heatGetTargetTemp(c_Tool);
+        rapid_serial_loop();   //perform backend printing loop before drawing to avoid printer idling
+        reValueNozzle(EXT_ICON_POS);
+      }
     }
 
     // check bed temp change

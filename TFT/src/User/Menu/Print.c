@@ -256,9 +256,42 @@ void menuPrintFromSource(void)
           }
           else
           {
-            ExitDir();
-            scanPrintFiles();
-            update = 1;
+            if(infoHost.connected !=true) break;
+            if(EnterDir(infoFile.file[key_num + start - infoFile.F_num]) == false) break;
+            //load bmp preview in flash if file exists
+            if (infoFile.source != BOARD_SD) {
+              int16_t gn;
+              char *gnew;
+              gn = strlen(infoFile.file[key_num + start - infoFile.F_num]) - 6; // -6 means ".gcode"
+              if(gn < 0) gn = 0; // for extension name ".g", ".gco" file, TODO: improve here in next version
+              gnew = malloc(gn + 10);
+              if (gnew != NULL) {
+                strcpy(gnew, getCurFileSource());
+                strncat(gnew, infoFile.file[key_num + start - infoFile.F_num], gn);
+
+                if(bmpDecode(strcat(gnew, "_"STRINGIFY(ICON_WIDTH)".bmp"),ICON_ADDR(ICON_PREVIEW)) == true){
+                  icon_pre = true;
+                }
+                else{
+                  icon_pre = false;
+                }
+                free(gnew);
+              }
+            }
+            //-load bmp preview in flash if file exists - end
+            char temp_info[75];
+            sprintf(temp_info, (char *)textSelect(LABEL_START_PRINT), infoFile.file[key_num + start - infoFile.F_num]);
+            //confirm file selection
+            if (infoSettings.cnc_mode != 1)
+            {
+              showDialog(DIALOG_TYPE_QUESTION, textSelect(LABEL_PRINT), (u8*)temp_info,
+                          textSelect(LABEL_CONFIRM), textSelect(LABEL_CANCEL), startPrint, resetInfoFile, NULL);
+            }
+            else
+            {
+              showDialog(DIALOG_TYPE_QUESTION, textSelect(LABEL_CUT), (u8*)temp_info,
+                          textSelect(LABEL_CONFIRM), textSelect(LABEL_CANCEL), startPrint, resetInfoFile, NULL);
+            }
           }
           break;
 
@@ -312,6 +345,26 @@ void menuPrintFromSource(void)
   }
 }
 
+MENUITEMS sourceSelItems = {
+//  title
+  LABEL_PRINT,
+// icon                       label
+ {{ICON_ONTFT_SD,            LABEL_TFTSD},
+ #ifdef U_DISK_SUPPORT
+  {ICON_U_DISK,               LABEL_U_DISK},
+  #define ONBOARD_SD_INDEX 2
+ #else
+  #define ONBOARD_SD_INDEX 1
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+ #endif
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACKGROUND,           LABEL_BACKGROUND},
+  {ICON_BACK,                 LABEL_BACK}}
+};
+
 void menuPrint(void)
 {
   MENUITEMS sourceSelItems = {
@@ -340,6 +393,8 @@ void menuPrint(void)
 
   sourceSelItems.items[ONBOARD_SD_INDEX].icon = (infoMachineSettings.onboard_sd_support == ENABLED) ? ICON_ONBOARD_SD : ICON_BACKGROUND;
   sourceSelItems.items[ONBOARD_SD_INDEX].label.index = (infoMachineSettings.onboard_sd_support == ENABLED) ? LABEL_ONBOARDSD : LABEL_BACKGROUND;
+
+  sourceSelItems.title.index = (infoSettings.cnc_mode == 1) ? LABEL_CUT : LABEL_PRINT;
 
   menuDrawPage(&sourceSelItems);
 

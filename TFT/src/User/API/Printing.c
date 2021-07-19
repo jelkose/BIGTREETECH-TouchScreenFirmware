@@ -199,18 +199,22 @@ void shutdown(void)
 
 void shutdownLoop(void)
 {
-  bool tempIsLower = true;
-
-  for (uint8_t i = NOZZLE0; i < infoSettings.hotend_count; i++)
+  if (infoSettings.cnc_mode != 1)
   {
-    if (heatGetCurrentTemp(i) >= AUTO_SHUT_DOWN_MAXTEMP)
-      tempIsLower = false;
+    // disable all heater
+    for (TOOL i = BED; i < HEATER_COUNT; i++)
+    {
+      mustStoreCmd("%s S0\n", heatCmd[i]);
+    }
   }
 
-  if (tempIsLower)
+  // disable all fan
+  for (u8 i = 0; i < (infoSettings.fan_count); i++)
   {
     shutdown();
   }
+  // disable all stepper
+  // mustStoreCmd("M18\n");
 }
 
 void shutdownStart(void)
@@ -461,13 +465,14 @@ void printAbort(void)
       break;
   }
 
-  if (infoSettings.send_cancel_gcode == 1)
-    sendPrintCodes(2);
+  if (infoSettings.cnc_mode != 1)
+  {
+    // Always turn off the spindle.
+    mustStoreCmd("M05\n");
+  }
 
-  printEnd();
-  clearInfoPrint();  // finally clear infoPrinting and exit from dir
-
-  loopDetected = false;
+  endPrinting();
+  exitPrinting();
 }
 
 bool printPause(bool isPause, PAUSE_TYPE pauseType)

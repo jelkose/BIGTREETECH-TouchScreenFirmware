@@ -20,32 +20,37 @@ const uint8_t default_custom_enabled[] = CUSTOM_GCODE_ENABLED;
 // Reset settings data
 void infoSettingsReset(void)
 {
-// General Settings
-  infoSettings.status_screen          = ENABLE_STATUS_SCREEN;
-  infoSettings.baudrate               = BAUDRATE;
-  infoSettings.multi_serial           = 0;
-  infoSettings.language               = LANG_DEFAULT;
+  infoSettings.baudrate             = BAUDRATE;
+  infoSettings.language             = DEFAULT_LANGUAGE;
+  infoSettings.mode                 = DEFAULT_LCD_MODE;
+  infoSettings.unified_menu         = UNIFIED_MENU;
+  infoSettings.cnc_mode             = CNC_MODE;
+  infoSettings.laser_mode           = LASER_MODE;
+  infoSettings.touchplate_on        = ENABLED;
+  infoSettings.touchplate_height    = TOUCHPLATE_OFFSET;
 
-  infoSettings.title_bg_color         = lcd_colors[TITLE_BACKGROUND_COLOR];
-  infoSettings.bg_color               = lcd_colors[BACKGROUND_COLOR];
-  infoSettings.font_color             = lcd_colors[FONT_COLOR];
-  infoSettings.reminder_color         = lcd_colors[REMINDER_FONT_COLOR];
-  infoSettings.sd_reminder_color      = lcd_colors[VOLUME_REMINDER_FONT_COLOR];
-  infoSettings.status_xyz_bg_color    = lcd_colors[STATUS_XYZ_BG_COLOR];
-  infoSettings.list_border_color      = lcd_colors[LISTVIEW_BORDER_COLOR];
-  infoSettings.list_button_color      = lcd_colors[LISTVIEW_ICON_COLOR];
-  infoSettings.mesh_min_color         = lcd_colors[MESH_MIN_COLOR];
-  infoSettings.mesh_max_color         = lcd_colors[MESH_MAX_COLOR];
-  infoSettings.terminal_color_scheme  = TERMINAL_COLOR_SCHEME;
+  infoSettings.bg_color             = lcd_colors[BACKGROUND_COLOR];
+  infoSettings.font_color           = lcd_colors[FONT_COLOR];
+  infoSettings.title_bg_color       = lcd_colors[TITLE_BACKGROUND_COLOR];
+  infoSettings.reminder_color       = lcd_colors[REMINDER_FONT_COLOR];
+  infoSettings.sd_reminder_color    = lcd_colors[VOLUME_REMINDER_FONT_COLOR];
+  infoSettings.status_xyz_bg_color  = lcd_colors[STATUS_XYZ_BG_COLOR];
+  infoSettings.list_border_color    = lcd_colors[LISTVIEW_BORDER_COLOR];
+  infoSettings.list_button_color    = lcd_colors[LISTVIEW_ICON_COLOR];
 
-  infoSettings.rotate_ui              = DISABLED;
-  infoSettings.terminalACK            = DISABLED;
-  infoSettings.persistent_info        = ENABLED;
-  infoSettings.file_listmode          = ENABLED;
-  infoSettings.files_sort_by          = SORT_DATE_NEW_FIRST;
-  infoSettings.ack_notification       = ACK_NOTIFICATION_STYLE;
-  infoSettings.notification_m117      = DISABLED;
-  infoSettings.emulate_m600           = EMULATE_M600;
+  infoSettings.silent               = DISABLED;
+  infoSettings.terminalACK          = DISABLED;
+  infoSettings.move_speed           = ENABLED;
+  infoSettings.knob_led_color       = STARTUP_KNOB_LED_COLOR;
+  infoSettings.send_start_gcode     = DISABLED;
+  infoSettings.send_end_gcode       = DISABLED;
+  infoSettings.send_cancel_gcode    = ENABLED;
+  infoSettings.persistent_info      = ENABLED;
+  infoSettings.file_listmode        = ENABLED;
+
+  infoSettings.lcd_brightness       = DEFAULT_LCD_BRIGHTNESS;
+  infoSettings.lcd_idle_brightness  = DEFAULT_LCD_IDLE_BRIGHTNESS;
+  infoSettings.lcd_idle_timer       = DEFAULT_LCD_IDLE_TIMER;
 
 // Marlin Mode Settings
   infoSettings.mode                   = DEFAULT_LCD_MODE;

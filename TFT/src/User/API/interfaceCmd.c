@@ -627,8 +627,15 @@ void sendQueueCmd(void)
 
         case 107:  // M107
         {
-          uint8_t i = cmd_seen('P') ? cmd_value() : 0;
-          fanSetCurSpeed(i, 0);
+          if(!fromTFT) {
+            uint8_t i = 0;
+            if(cmd_seen('P')) i = cmd_value();
+            #ifdef CNC_LASER
+              laserSetSpeed(i, 0);
+            #else
+              fanSetCurSpeed(i, 0);
+            #endif
+          }
           break;
         }
 

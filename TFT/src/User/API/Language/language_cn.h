@@ -354,4 +354,16 @@
     #define STRING_CONNECT_PROBE          "开启此操作前请先连接探头, 操作完成后请断开连接"
     #define STRING_CALIBRATION            "校准"
 
+    #define CN_ZERO_X                 "Zero X"
+    #define CN_ZERO_Y                 "Zero Y"
+    #define CN_ZERO_Z                 "Zero Z"
+    #define CN_XY                     "XY"
+    #define CN_SPINDLE                "Spindle"
+    #define CN_CUT                    "Cut"
+    #define CN_LASER                  "Laser"
+    #define CN_LASER_2                "Laser 2%"
+    #define CN_LASER_100              "Laser 100%"
+    #define CN_LASER_OFF              "Laser Off"
+    #define CN_CNC_MODE               "CNC Mode"
+    #define CN_LASER_MODE             "Laser Mode"
 #endif

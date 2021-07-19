@@ -262,6 +262,25 @@ void loopCheckHeater(void)
       if (heat_update_waiting) updateNextHeatCheckTime();  // set next timeout for temperature auto-report
     }
   }
+}
+
+void updateNextHeatCheckTime(void)
+{
+  nextHeatCheckTime = OS_GetTimeMs() + heat_update_time;
+}
+
+void loopCheckHeater(void)
+{
+  do
+  {  // Send M105 query temperature continuously
+    if(heat_update_waiting == true) {updateNextHeatCheckTime();break;}
+    if(OS_GetTimeMs() < nextHeatCheckTime)          break;
+    if(RequestCommandInfoIsRunning())               break; //to avoid colision in Gcode response processing
+    if(infoMenu.menu[infoMenu.cur] == menuTerminal) break; //to avoid M105 during terminal viewing
+    if(storeCmd("M105\n") == false)                 break;
+    updateNextHeatCheckTime();
+    heat_update_waiting = true;
+  }while(0);
 
   // Query the heater that needs to wait for the temperature to rise, whether it reaches the set temperature
   for (uint8_t i = 0; i < MAX_HEATER_COUNT; i++)

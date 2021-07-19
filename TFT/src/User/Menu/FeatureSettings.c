@@ -45,19 +45,37 @@ const char *const itemSortBy[SORT_BY_COUNT] =
 //
 typedef enum
 {
-  SKEY_TERMINAL_ACK = 0,
-  SKEY_PERSISTENT_INFO,
-  SKEY_FILE_LIST_MODE,
-  SKEY_FILE_SORT_BY,
-  SKEY_ACK_NOTIFICATION,
-  SKEY_EMULATE_M600,
-  SKEY_SERIAL_ALWAYS_ON,
+  SKEY_ACK = 0,
+  SKEY_CNC,
+  SKEY_LASER,
+  SKEY_INVERT_X,
+  SKEY_INVERT_Y,
+  SKEY_INVERT_Z,
+  #ifdef PS_ON_PIN
+    SKEY_POWER,
+  #endif
+  #ifdef FIL_RUNOUT_PIN
+    SKEY_RUNOUT,
+  #endif
   SKEY_SPEED,
   SKEY_AUTO_LOAD_LEVELING,
   SKEY_FAN_SPEED_PERCENT,
   SKEY_XY_OFFSET_PROBING,
   SKEY_Z_STEPPERS_ALIGNMENT,
 
+#define FE_PAGE_COUNT  (SKEY_COUNT+LISTITEM_PER_PAGE-1)/LISTITEM_PER_PAGE
+int fe_cur_page = 0;
+
+//
+//set item types
+//
+LISTITEM settingPage[SKEY_COUNT] = {
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_TERMINAL_ACK,             LABEL_BACKGROUND  },
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_CNC_MODE,                 LABEL_BACKGROUND  },
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_LASER_MODE,               LABEL_BACKGROUND  },
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_INVERT_XAXIS,             LABEL_BACKGROUND  },
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_INVERT_YAXIS,             LABEL_BACKGROUND  },
+  {ICONCHAR_TOGGLE_ON,  LIST_TOGGLE,        LABEL_INVERT_ZAXIS,             LABEL_BACKGROUND  },
   #ifdef PS_ON_PIN
     SKEY_PS_ON,
   #endif
@@ -99,6 +117,20 @@ void updateFeatureSettings(uint8_t item_index)
     case SKEY_PERSISTENT_INFO:
       infoSettings.persistent_info = (infoSettings.persistent_info + 1) % ITEM_TOGGLE_NUM;
       break;
+    case SKEY_CNC:
+      infoSettings.cnc_mode = (infoSettings.cnc_mode + 1) % TOGGLE_NUM;
+      settingPage[item_index].icon = toggleitem[infoSettings.cnc_mode];
+     break;
+
+    case SKEY_LASER:
+      infoSettings.laser_mode = (infoSettings.laser_mode + 1) % TOGGLE_NUM;
+      settingPage[item_index].icon = toggleitem[infoSettings.laser_mode];
+     break;
+
+    case SKEY_INVERT_X:
+      infoSettings.invert_axis[X_AXIS] = (infoSettings.invert_axis[X_AXIS] + 1) % TOGGLE_NUM;
+      settingPage[item_index].icon = toggleitem[infoSettings.invert_axis[X_AXIS]];
+     break;
 
     case SKEY_FILE_LIST_MODE:
       infoSettings.file_listmode = (infoSettings.file_listmode + 1) % ITEM_TOGGLE_NUM;
@@ -226,6 +258,16 @@ void loadFeatureSettings(LISTITEM * item, uint16_t item_index, uint8_t itemPos)
 
       case SKEY_ACK_NOTIFICATION:
         setDynamicTextValue(itemPos, (char *)itemNotificationType[infoSettings.ack_notification]);
+      case SKEY_CNC:
+        settingPage[item_index].icon = toggleitem[infoSettings.cnc_mode];
+        break;
+
+      case SKEY_LASER:
+        settingPage[item_index].icon = toggleitem[infoSettings.laser_mode];
+        break;
+
+      case SKEY_INVERT_X:
+        settingPage[item_index].icon = toggleitem[infoSettings.invert_axis[X_AXIS]];
         break;
 
       case SKEY_EMULATE_M600:

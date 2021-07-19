@@ -529,6 +529,15 @@
  */
 #define TERMINAL_KEYBOARD_LAYOUT 0  // Default: 0
 
+// Enable CNC mode mutually exclusive to UNIFIED_MENU
+#define CNC_MODE true
+
+// Enable Laser interface instead of the fan interface (for CNC mode only).
+#define LASER_MODE true
+
+// Change this if you'd like to have a Z offset after homing Z.
+#define TOUCHPLATE_OFFSET 0.0
+
 /**
  * Progress bar layout on Printing menu
  * Uncomment to enable a progress bar with 10% markers.

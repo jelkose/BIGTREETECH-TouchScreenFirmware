@@ -28,6 +28,20 @@ void menuFan(void)
     }
   };
 
+  MENUITEMS laserItems = {
+  // title
+  LABEL_LASER,
+  // icon                       label
+   {{ICON_DEC,                  LABEL_DEC},
+    {ICON_BACKGROUND,           LABEL_BACKGROUND},
+    {ICON_BACKGROUND,           LABEL_BACKGROUND},
+    {ICON_INC,                  LABEL_INC},
+    {ICON_LASER_2 ,             LABEL_LASER_2},
+    {ICON_LASER_100,            LABEL_LASER_100},
+    {ICON_LASER_OFF,            LABEL_LASER_OFF},
+    {ICON_BACK,                 LABEL_BACK},}
+  };
+
   KEY_VALUES key_num = KEY_IDLE;
   LASTFAN lastFan;
 
@@ -39,8 +53,15 @@ void menuFan(void)
   else
     fanItems.items[KEY_ICON_4] = itemFan[1];
 
-  menuDrawPage(&fanItems);
-  fanReDraw(fan_index, false);
+  if (infoSettings.laser_mode != 1)
+  {
+    menuDrawPage(&fanItems);
+  }
+  else
+  {
+    menuDrawPage(&laserItems);
+  }
+  fanSpeedReDraw(false);
 
   #if LCD_ENCODER_SUPPORT
     encoderPosition = 0;
@@ -96,19 +117,21 @@ void menuFan(void)
         break;
 
       case KEY_ICON_4:
-        if ((infoSettings.fan_count + infoSettings.ctrl_fan_en) > 1)
+        if (infoSettings.laser_mode == 1)
         {
-          do
-          {
-            fan_index = (fan_index + 1) % MAX_FAN_COUNT;
-          } while (!fanIsValid(fan_index));
-
-          fanReDraw(fan_index, false);
+          fanSetSpeedPercent(curIndex, 2);
         }
         else
         {
-          fanSetSpeed(fan_index, infoSettings.fan_max[fan_index] / 2);  // 50%
-          fanReDraw(fan_index, true);
+          if (infoSettings.fan_count > 1)
+          {
+            curIndex = (curIndex + 1) % infoSettings.fan_count;
+            fanSpeedReDraw(false);
+          }
+          else
+          {
+            fanSetSpeed(curIndex, (infoSettings.fan_max[curIndex] + 1) / 2);
+          }
         }
         break;
 

@@ -1208,7 +1208,11 @@ void parseACK(void)
       // parse error messages
       else if (ack_seen(errormagic))
       {
-        ackPopupInfo(errormagic);
+        uint8_t i = ack_value();
+        if (ack_seen("S"))
+        {
+          fanSetSpeed(i, ack_value());
+        }
       }
       // parse echo messages
       else if (ack_seen(echomagic))

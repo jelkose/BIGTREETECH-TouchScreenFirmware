@@ -534,6 +534,18 @@ void parseConfigKey(uint16_t index)
     case C_INDEX_STATUS_SCREEN:
       infoSettings.status_screen = getOnOff();
       break;
+  case C_INDEX_CNCMODE:
+      infoSettings.cnc_mode = getOnOff();
+    break;
+
+  case C_INDEX_LASERMODE:
+      infoSettings.laser_mode = getOnOff();
+    break;
+
+  case C_INDEX_UART_BAUDRATE:
+    if (inLimit(config_int(),0,ITEM_BAUDRATE_NUM-1))
+      infoSettings.baudrate = item_baudrate[config_int()];
+    break;
 
     case C_INDEX_UART_BAUDRATE:
       SET_VALID_INT_VALUE(infoSettings.baudrate, 0, BAUDRATE_COUNT - 1);
@@ -874,6 +886,18 @@ void parseConfigKey(uint16_t index)
       if (key_seen("T")) SET_VALID_INT_VALUE(configPreheatStore->preheat_temp[val_index], MIN_TOOL_TEMP, MAX_TOOL_TEMP);
       break;
     }
+    break;
+  //---------------------------------------------------------Z min Touch Plate:
+  case C_INDEX_TOUCHPLATE_ON:
+    infoSettings.touchplate_on = getOnOff();
+    break;
+
+  case C_INDEX_TOUCHPLATE_HEIGHT:
+    if (inLimit(config_float(),  MIN_SIZE_LIMIT, MAX_SIZE_LIMIT))
+    {
+      infoSettings.touchplate_height = config_float();
+    }
+    break;
 
     //----------------------------Power Supply Settings (if connected to TFT controller)
 
