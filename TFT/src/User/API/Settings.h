@@ -90,6 +90,12 @@ typedef struct
   uint8_t baudrate;
   uint8_t multi_serial;
   uint8_t language;
+  
+  uint8_t  unified_menu;
+  uint8_t  cnc_mode;
+  uint8_t  laser_mode;
+  float    touchplate_height;
+  uint8_t  touchplate_on;
 
   uint16_t title_bg_color;
   uint16_t bg_color;

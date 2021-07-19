@@ -434,6 +434,8 @@ void printInfoPopup(void)
       sprintf(tempstr, (char *)textSelect(LABEL_FILAMENT_COST), infoPrintSummary.cost);
       strcat(showInfo, tempstr);
     }
+    rapid_serial_loop();   //perform backend printing loop before drawing to avoid printer idling
+    reDrawSpeed(SPD_ICON_POS);
   }
   popupReminder(DIALOG_TYPE_INFO, (uint8_t *)infoPrintSummary.name, (uint8_t *)showInfo);
 }
@@ -516,14 +518,17 @@ void menuPrinting(void)
   {
     //Scroll_DispString(&titleScroll, LEFT);  // Scroll display file name will take too many CPU cycles
 
-    // check nozzle temp change
-    if (nowHeat.T[currentTool].current != heatGetCurrentTemp(currentTool) ||
-        nowHeat.T[currentTool].target != heatGetTargetTemp(currentTool))
+    if (infoSettings.cnc_mode != 1)
     {
-      nowHeat.T[currentTool].current = heatGetCurrentTemp(currentTool);
-      nowHeat.T[currentTool].target = heatGetTargetTemp(currentTool);
-      RAPID_SERIAL_LOOP();  // perform backend printing loop before drawing to avoid printer idling
-      reDrawPrintingValue(EXT_ICON_POS, PRINT_BOTTOM_ROW);
+      // check nozzle temp change
+      if (nowHeat.T[currentTool].current != heatGetCurrentTemp(currentTool) ||
+          nowHeat.T[currentTool].target != heatGetTargetTemp(currentTool))
+      {
+        nowHeat.T[currentTool].current = heatGetCurrentTemp(currentTool);
+        nowHeat.T[currentTool].target = heatGetTargetTemp(currentTool);
+        RAPID_SERIAL_LOOP();  // perform backend printing loop before drawing to avoid printer idling
+        reDrawPrintingValue(EXT_ICON_POS, PRINT_BOTTOM_ROW);
+      }
     }
 
     // check bed temp change

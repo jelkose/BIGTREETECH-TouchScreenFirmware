@@ -162,6 +162,14 @@ extern "C" {
 #define CONFIG_END_GCODE              "end_gcode:"
 #define CONFIG_CANCEL_GCODE           "cancel_gcode:"
 
+//-----------------------------Z min Touch Plate
+#define CONFIG_TOUCHPLATE_ON        "touchplate_on:"
+#define CONFIG_TOUCHPLATE_HEIGHT    "touchplate_height:"
+
+#define CONFIG_UNIFIEDMENU          "unified_menu:"
+#define CONFIG_CNCMODE              "cnc_mode:"
+#define CONFIG_LASERMODE            "laser_mode:"
+
 //-----------------------------Limits
 #define MAX_SIZE_LIMIT         2000  // machine size over this will not be parsed.
 #define MAX_EXT_SPEED_LIMIT    5000  // Extruder speed over this will not pe parsed.

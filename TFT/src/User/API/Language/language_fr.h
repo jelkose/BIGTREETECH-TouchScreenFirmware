@@ -354,4 +354,16 @@
     #define STRING_CONNECT_PROBE          "Connectez le palpeur avant de démarrer le processus. Veillez à le déconnecter ensuite."
     #define STRING_CALIBRATION            "Calibration"
 
+    #define FR_ZERO_X                 "Zero X"
+    #define FR_ZERO_Y                 "Zero Y"
+    #define FR_ZERO_Z                 "Zero Z"
+    #define FR_XY                     "XY"
+    #define FR_SPINDLE                "Spindle"
+    #define FR_CUT                    "Cut"
+    #define FR_LASER                  "Laser"
+    #define FR_LASER_2                "Laser 2%"
+    #define FR_LASER_100              "Laser 100%"
+    #define FR_LASER_OFF              "Laser Off"
+    #define FR_CNC_MODE               "CNC Mode"
+    #define FR_LASER_MODE             "Laser Mode"
 #endif

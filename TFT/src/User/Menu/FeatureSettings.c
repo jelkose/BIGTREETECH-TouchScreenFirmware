@@ -52,6 +52,17 @@ typedef enum
   SKEY_ACK_NOTIFICATION,
   SKEY_EMULATE_M600,
   SKEY_SERIAL_ALWAYS_ON,
+  SKEY_CNC,
+  SKEY_LASER,
+  SKEY_INVERT_X,
+  SKEY_INVERT_Y,
+  SKEY_INVERT_Z,
+  #ifdef PS_ON_PIN
+    SKEY_POWER,
+  #endif
+  #ifdef FIL_RUNOUT_PIN
+    SKEY_RUNOUT,
+  #endif
   SKEY_SPEED,
   SKEY_AUTO_LOAD_LEVELING,
   SKEY_FAN_SPEED_PERCENT,
@@ -99,6 +110,17 @@ void updateFeatureSettings(uint8_t item_index)
     case SKEY_PERSISTENT_INFO:
       infoSettings.persistent_info = (infoSettings.persistent_info + 1) % ITEM_TOGGLE_NUM;
       break;
+    case SKEY_CNC:
+      infoSettings.cnc_mode = (infoSettings.cnc_mode + 1) % ITEM_TOGGLE_NUM;
+     break;
+
+    case SKEY_LASER:
+      infoSettings.laser_mode = (infoSettings.laser_mode + 1) % ITEM_TOGGLE_NUM;
+     break;
+
+    case SKEY_INVERT_X:
+      infoSettings.invert_axis[X_AXIS] = (infoSettings.invert_axis[X_AXIS] + 1) % ITEM_TOGGLE_NUM;
+     break;
 
     case SKEY_FILE_LIST_MODE:
       infoSettings.file_listmode = (infoSettings.file_listmode + 1) % ITEM_TOGGLE_NUM;
@@ -226,6 +248,16 @@ void loadFeatureSettings(LISTITEM * item, uint16_t item_index, uint8_t itemPos)
 
       case SKEY_ACK_NOTIFICATION:
         setDynamicTextValue(itemPos, (char *)itemNotificationType[infoSettings.ack_notification]);
+      case SKEY_CNC:
+        item->icon = iconToggle[infoSettings.cnc_mode];
+        break;
+
+      case SKEY_LASER:
+        item->icon = iconToggle[infoSettings.laser_mode];
+        break;
+
+      case SKEY_INVERT_X:
+        item->icon = iconToggle[infoSettings.invert_axis[X_AXIS]];
         break;
 
       case SKEY_EMULATE_M600:
@@ -330,6 +362,8 @@ void menuFeatureSettings(void)
   //set item types
   //
   LISTITEM settingPage[SKEY_COUNT] = {
+    {CHARICON_TOGGLE_ON,  LIST_TOGGLE,        LABEL_CNC_MODE,                 LABEL_BACKGROUND  },
+    {CHARICON_TOGGLE_ON,  LIST_TOGGLE,        LABEL_LASER_MODE,               LABEL_BACKGROUND  },
     {CHARICON_TOGGLE_ON,   LIST_TOGGLE,        LABEL_TERMINAL_ACK,           LABEL_BACKGROUND},
     {CHARICON_TOGGLE_ON,   LIST_TOGGLE,        LABEL_PERSISTENT_INFO,        LABEL_BACKGROUND},
     {CHARICON_TOGGLE_ON,   LIST_TOGGLE,        LABEL_FILE_LIST_MODE,         LABEL_BACKGROUND},

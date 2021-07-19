@@ -341,6 +341,8 @@ void menuPrint(void)
   sourceSelItems.items[ONBOARD_SD_INDEX].icon = (infoMachineSettings.onboard_sd_support == ENABLED) ? ICON_ONBOARD_SD : ICON_BACKGROUND;
   sourceSelItems.items[ONBOARD_SD_INDEX].label.index = (infoMachineSettings.onboard_sd_support == ENABLED) ? LABEL_ONBOARDSD : LABEL_BACKGROUND;
 
+  sourceSelItems.title.index = (infoSettings.cnc_mode == 1) ? LABEL_CUT : LABEL_PRINT;
+
   menuDrawPage(&sourceSelItems);
 
   while (infoMenu.menu[infoMenu.cur] == menuPrint)

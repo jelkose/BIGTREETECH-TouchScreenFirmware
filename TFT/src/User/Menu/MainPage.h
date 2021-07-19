@@ -6,9 +6,10 @@ extern "C" {
 #endif
 
 void menuMain(void);
-
+void unifiedMenu(void);
+void cncMenu(void);
+void classicMenu(void);
 #ifdef __cplusplus
 }
 #endif
-
 #endif

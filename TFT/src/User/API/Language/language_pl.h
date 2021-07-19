@@ -354,4 +354,16 @@
     #define STRING_CONNECT_PROBE          "Connect probe before starting the process. Make sure to disconnect it afterwards."
     #define STRING_CALIBRATION            "Calibration"
 
+    #define PL_ZERO_X                 "Zero X"
+    #define PL_ZERO_Y                 "Zero Y"
+    #define PL_ZERO_Z                 "Zero Z"
+    #define PL_XY                     "XY"
+    #define PL_SPINDLE                "Spindle"
+    #define PL_CUT                    "Cut"
+    #define PL_LASER                  "Laser"
+    #define PL_LASER_2                "Laser 2%"
+    #define PL_LASER_100              "Laser 100%"
+    #define PL_LASER_OFF              "Laser Off"
+    #define PL_CNC_MODE               "CNC Mode"
+    #define PL_LASER_MODE             "Laser Mode"
 #endif
